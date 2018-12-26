@@ -15,7 +15,9 @@ const userReducer = (currentState = [], action) => {
         return [...currentState, action.payload]
     } else if (action.type === 'REMOVE_USER') {
         return currentState.filter(item => item.email !== action.payload.email)
-    }    
+    } else if (action.type === 'GET_ALL_USERS') {
+        return currentState;
+    }   
     else {
         console.log("action received", action.type)
         return currentState

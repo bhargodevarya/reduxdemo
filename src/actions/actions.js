@@ -39,3 +39,16 @@ export const removeUser = (email) => {
         }
     }
 }
+
+export function getAllUsers() {
+    return function(dispatch) {
+        return dispatch(getAllUsersAction())
+    }
+}
+
+export function getAllUsersAction() {
+    return {
+        type:'GET_ALL_USERS',
+        payload: {}
+    }
+}

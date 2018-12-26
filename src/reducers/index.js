@@ -1,6 +1,8 @@
 import userReducer from './UserReducer'
 
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import reduxImmutableStateInvariant from 'redux-immutable-state-invariant'
+import thunk from 'redux-thunk'
 
 /**
  createStore is used to create the cumalative state of the application.
@@ -15,6 +17,6 @@ const appReducers = combineReducers({
     user: userReducer
 })
 
-export const store = createStore(appReducers)
+export const store = createStore(appReducers, applyMiddleware(thunk, reduxImmutableStateInvariant()))
 
 console.log("my store is ", store)
