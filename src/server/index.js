@@ -8,25 +8,10 @@ var cors = require('cors')
 
 const app = express();
 app.use(cors())
-//app.options('*', cors());
-//app.use(bodyParser.urlencoded({ extended: false }));
-//app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-var corsOptions = {
-  origin: 'http://localhost.3000/',
-  optionsSuccessStatus: 200
-};
-
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
-
-app.get("/user", cors(corsOptions), (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", 'http://localhost:3000');
-res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT,DELETE');
-res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Accept');
+app.get("/user", cors(), (req, res) => {
   readFile()
   .then(data => {
     let users = res.send(data); 
@@ -36,6 +21,7 @@ res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Accept');
 });
 
 app.post("/user", (req, res) => {
+  console.log("Received a request to create user", req.body)
   writeFile(req.body).then(data => res.send(data));
 });
 
@@ -49,13 +35,16 @@ function writeFile(user) {
         endOfLine.concat(JSON.stringify(user)),
         err => {
           if (err) {
+            console.log("Error while writing user", err)
             reject(err);
           } else {
+            console.log("write successful")
             resolve("success");
           }
         }
       );
     } catch (e) {
+      console.log("Error: ", err)
       reject(e);
     }
   });

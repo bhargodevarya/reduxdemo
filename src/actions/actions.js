@@ -20,11 +20,11 @@ payload would consist of the details of the newly created user.
  */
 
 export const createUser = (name, email) => {
-    console.log("creating user")
+    console.log("creating user", name)
     return {
         type: "CREATE_USER",
         payload : {
-            name: name,
+            user: name,
             email: email
         }
     }
