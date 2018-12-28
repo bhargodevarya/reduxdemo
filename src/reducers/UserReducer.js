@@ -11,13 +11,17 @@
 
 const userReducer = (currentState = [], action) => {
     if (action.type === 'CREATE_USER') {
-        console.log("returning", [...currentState, action.payload])
+        //console.log("returning", [...currentState, action.payload])
         return [...currentState, action.payload]
     } else if (action.type === 'REMOVE_USER') {
         return currentState.filter(item => item.email !== action.payload.email)
     } else if (action.type === 'GET_ALL_USERS') {
         return currentState;
-    }   
+    } else if (action.type === 'GET_ALL_USERS_SUCCESS') {
+        console.log("from reducer, current state", currentState)
+        console.log("from reducer, new state", action.payload)
+        return action.payload;
+    } 
     else {
         console.log("action received", action.type)
         return currentState

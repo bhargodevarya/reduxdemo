@@ -6,8 +6,9 @@ import Col from 'react-bootstrap/lib/Col'
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 import Button from 'react-bootstrap/lib/Button'
 import { connect } from 'react-redux'
-import {bindActionCreators} from 'redux'
 import * as action from '../actions/actions';
+
+import { CustomTable } from './Table'
 
 class SearchBar extends React.Component {
 
@@ -15,16 +16,24 @@ class SearchBar extends React.Component {
         super(props, context)
 
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.createTable = this.createTable.bind(this)
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log(this.props.action)
-        this.props.action.getAllUsers()
+        this.props.getAllUsers()
+        console.log(">> props", this.props)
+    }
+
+    createTable(users) {
+        return <CustomTable users={users}></CustomTable>
     }
 
     render() {
-        return <div><Form horizontal >
+        console.log(">> from render", this.props.user)
+        const userTable = this.createTable(this.props.user)
+        return <div>
+            <Form horizontal >
                 <FormGroup>
                     <Col componentClass = {ControlLabel} sm = {2} >
                         Email 
@@ -40,20 +49,20 @@ class SearchBar extends React.Component {
                     </Col>
                 </FormGroup>
             </Form>
-            {this.props.user.name}
+            {userTable}
             </div>
     }
 }
 
 function mapStateToProps(state, ownProps) {
     return {
-        user:state.user
+        user: state.user
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        action: bindActionCreators(Object.assign({}, action), dispatch)
+        getAllUsers: () => dispatch(action.getAllUsersAction())
     }
 
 }

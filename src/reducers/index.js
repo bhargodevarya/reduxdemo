@@ -1,8 +1,8 @@
 import userReducer from './UserReducer'
+import { userWatcher } from '../saga/userSaga'
 
 import { createStore, combineReducers, applyMiddleware } from 'redux'
-import reduxImmutableStateInvariant from 'redux-immutable-state-invariant'
-import thunk from 'redux-thunk'
+import createSagaMiddleWare from 'redux-saga'
 
 /**
  createStore is used to create the cumalative state of the application.
@@ -17,6 +17,10 @@ const appReducers = combineReducers({
     user: userReducer
 })
 
-export const store = createStore(appReducers, applyMiddleware(thunk, reduxImmutableStateInvariant()))
+const sagaMiddleware = createSagaMiddleWare()
+
+export const store = createStore(appReducers, applyMiddleware(sagaMiddleware))
+
+sagaMiddleware.run(userWatcher)
 
 console.log("my store is ", store)
